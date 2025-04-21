@@ -21,7 +21,6 @@ export const useStockStore = create<TStockStore>((set, get) => ({
   setCurrentSearchSymbol: (value) => set({ currentSearchSymbol: value }),
 
   fetchMultiple: async (symbols: string[], delayMs = 2500) => {
-    // Prevent fetching if a specific stock is being viewed
     if (get().currentSearchSymbol) return;
 
     set({ loading: true, error: null });
