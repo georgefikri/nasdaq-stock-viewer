@@ -1,10 +1,14 @@
-import { StockViewer } from '@/features/stocks/components/StockViewer';
+import { StockGrid } from '@/components/StockGrid';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <h1 className="text-center text-3xl font-bold py-6">📈 Stock Market Viewer</h1>
-      <StockViewer />
+    <div className="min-h-screen bg-black text-white">
+      <main className="max-w-7xl mx-auto">
+        <StockGrid />
+      </main>
+      <footer className="text-center text-sm text-gray-500 py-4 border-t border-gray-700">
+        Developed by George Fikri
+      </footer>
     </div>
   );
 }

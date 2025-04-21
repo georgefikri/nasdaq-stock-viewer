@@ -1,19 +1,43 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { delay } from '@/lib/utils/delay';
+import { TStockData } from '@/types/stocks';
 
-const API_KEY = '71x4ABHdRW44oeSDi2BFbCviQK6t3FR6';
-const BASE_URL = 'https://api.polygon.io';
-const cache = new Map<string, any>();
+import { FINNHUB_API_KEY, FINNHUB_BASE_URL } from '@/config/finnhub';
 
-export async function fetchStockData(symbol: string) {
-  if (cache.has(symbol)) return cache.get(symbol);
-
-  const url = `${BASE_URL}/v1/open-close/${symbol}/2023-10-20?adjusted=true&apiKey=${API_KEY}`;
+export async function fetchStockData(
+  symbol: string,
+  retries = 2,
+  delayMs = 1000
+): Promise<TStockData> {
+  const url = `${FINNHUB_BASE_URL}/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
 
   try {
-    const response = await axios.get(url);
-    cache.set(symbol, response.data);
-    return response.data;
-  } catch {
-    throw new Error('Failed to fetch stock data');
+    const res = await axios.get(url);
+
+    const data = res.data;
+
+    if (!data || data.c === 0) {
+      throw new Error('Invalid stock data received');
+    }
+
+    return {
+      symbol,
+      open: data.o,
+      close: data.c,
+      high: data.h,
+      low: data.l,
+      volume: 0,
+      previousClose: data.pc,
+      timestamp: data.t,
+    };
+  } catch (error) {
+    const err = error as AxiosError<{ message?: string }>;
+    if (err.response?.status === 429 && retries > 0) {
+      await delay(delayMs);
+      return fetchStockData(symbol, retries - 1, delayMs * 2);
+    }
+
+    const message = err?.response?.data?.message || 'Failed to fetch stock data....';
+    throw new Error(message);
   }
 }
