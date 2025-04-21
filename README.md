@@ -1,6 +1,6 @@
 # 📈 Stock Market Web App – React + TypeScript + Vite
 
-A modern stock viewer application built with **React**, **TypeScript**, and **Vite** that fetches real-time stock data from the **Finnhub API**. It includes live search suggestions, infinite scrolling for NASDAQ tickers, graceful error handling, and a clean UI built with reusable components and toast notifications.
+A modern stock viewer application built with **React**, **TypeScript**, and **Vite** that fetches real-time stock data from the **Finnhub API**. It includes live search suggestions, infinite scrolling for NASDAQ tickers, and a clean UI built with reusable components and toast notifications.
 
 > 🌐 Live Demo: [nasdaq-stock-viewer.vercel.app](https://nasdaq-stock-viewer.vercel.app)
 
