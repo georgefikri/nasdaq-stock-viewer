@@ -92,12 +92,18 @@ src/
 │   └── finnhub.ts              # Finnhub base URL + env key
 ├── features/
 │   └── stocks/
-│       ├── api/                # API logic
+│       ├── api/                 # Finnhub API interaction
 │       │   ├── fetchStockData.ts
 │       │   ├── fetchNasdaqTickers.ts
 │       │   └── searchSymbols.ts
 │       └── store/
-│           └── useStockStore.ts
+│           ├── useStockStore.ts          # Zustand store setup
+│           └── actions/                  # Modular Zustand logic
+│               ├── fetchBySearch.ts
+│               ├── fetchMultiple.ts
+│               ├── loadMoreTickers.ts
+│               ├── loadNasdaqTickers.ts
+│               └── searchSymbols.ts
 ├── hooks/
 │   └── useStockGridLogic.ts    # Decoupled hook logic
 ├── lib/
