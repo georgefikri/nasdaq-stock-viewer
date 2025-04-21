@@ -16,8 +16,14 @@ export const useStockStore = create<TStockStore>((set, get) => ({
   availableTickers: [],
   tickerIndex: 0,
   searchResults: [],
+  currentSearchSymbol: '',
+
+  setCurrentSearchSymbol: (value) => set({ currentSearchSymbol: value }),
 
   fetchMultiple: async (symbols: string[], delayMs = 2500) => {
+    // Prevent fetching if a specific stock is being viewed
+    if (get().currentSearchSymbol) return;
+
     set({ loading: true, error: null });
 
     for (const symbol of symbols) {
@@ -52,6 +58,8 @@ export const useStockStore = create<TStockStore>((set, get) => ({
 
   fetchBySearch: async (symbol: string) => {
     const normalizedSymbol = symbol.toUpperCase();
+
+    set({ currentSearchSymbol: normalizedSymbol });
 
     if (get().stocks[normalizedSymbol]) {
       set({ loading: false });
@@ -91,7 +99,9 @@ export const useStockStore = create<TStockStore>((set, get) => ({
   },
 
   loadMoreTickers: async () => {
-    const { availableTickers, tickerIndex } = get();
+    const { availableTickers, tickerIndex, currentSearchSymbol } = get();
+    if (currentSearchSymbol) return;
+
     const nextBatch = availableTickers.slice(tickerIndex, tickerIndex + 10);
     const nextSymbols = nextBatch.map((t) => t.symbol);
     set({ tickerIndex: tickerIndex + 10 });

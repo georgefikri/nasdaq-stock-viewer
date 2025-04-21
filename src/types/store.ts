@@ -12,6 +12,8 @@ export type TStockStore = {
   availableTickers: TTicker[];
   tickerIndex: number;
   searchResults: TTicker[];
+  currentSearchSymbol: string;
+  setCurrentSearchSymbol: (value: string) => void;
   fetchMultiple: (symbols: string[], delayMs?: number) => void;
   fetchBySearch: (symbol: string) => void;
   loadNasdaqTickers: () => Promise<void>;

@@ -2,6 +2,7 @@ import { useStockGridLogic } from '@/hooks/useStockGridLogic';
 import { Spinner } from './ui/Spinner';
 import { Toast } from '@/components/ui/Toast';
 import { useEffect, useState } from 'react';
+import { useStockStore } from '@/features/stocks/store/useStockStore';
 
 export const StockGrid = () => {
   const {
@@ -18,6 +19,7 @@ export const StockGrid = () => {
   } = useStockGridLogic();
 
   const [showToast, setShowToast] = useState(false);
+  const currentSearchSymbol = useStockStore((s) => s.currentSearchSymbol);
 
   useEffect(() => {
     if (error) setShowToast(true);
@@ -66,23 +68,27 @@ export const StockGrid = () => {
       )}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-5">
-        {Object.entries(stocks).map(([symbol, data]) => {
-          const ticker = availableTickers.find((t) => t.symbol === symbol);
+        {Object.entries(stocks)
+          .filter(([symbol]) =>
+            currentSearchSymbol ? symbol === currentSearchSymbol : true
+          )
+          .map(([symbol, data]) => {
+            const ticker = availableTickers.find((t) => t.symbol === symbol);
 
-          return (
-            <div
-              key={symbol}
-              className="border border-white rounded-lg p-4 text-center text-white bg-gray-800"
-            >
-              <h3 className="text-xl font-bold mb-1">{symbol}</h3>
-              {ticker && (
-                <p className="text-sm text-gray-400 mb-1">{ticker.description}</p>
-              )}
-              <p className="text-sm">Open: ${data.open}</p>
-              <p className="text-sm">Close: ${data.close}</p>
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={symbol}
+                className="border border-white rounded-lg p-4 text-center text-white bg-gray-800"
+              >
+                <h3 className="text-xl font-bold mb-1">{symbol}</h3>
+                {ticker && (
+                  <p className="text-sm text-gray-400 mb-1">{ticker.description}</p>
+                )}
+                <p className="text-sm">Open: ${data.open}</p>
+                <p className="text-sm">Close: ${data.close}</p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

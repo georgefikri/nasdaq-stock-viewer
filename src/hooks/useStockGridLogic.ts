@@ -57,7 +57,16 @@ export function useStockGridLogic() {
 
   useEffect(() => {
     const trimmed = deferredSearch.trim();
-    if (!trimmed) return;
+
+    if (trimmed === '') {
+      useStockStore.setState({
+        currentSearchSymbol: '',
+        stocks: {},
+      });
+      initialScrollReached.current = false;
+      loadUntilScrollable();
+      return;
+    }
 
     const timeout = setTimeout(() => {
       startTransition(() => {
