@@ -8,23 +8,23 @@ A modern stock viewer application built with **React**, **TypeScript**, and **Vi
 
 ## 🚀 Features
 
-- 🔍 **Search-as-you-type** with suggestions using Finnhub's `/search` endpoint.
-- 📊 **Real-time stock quotes** via `/quote`.
-- 🏢 **Initial stock list** based on NASDAQ tickers from `/stock/symbol`.
-- 🔄 **Infinite scroll** that loads more stocks as the user scrolls.
-- ⚡ **Scroll-aware lazy loading** (stops when scroll is enabled).
-- 🧠 **Debounced search input** and **cached results** to reduce API usage.
-- 🍞 **Toast-based error handling** for graceful user feedback.
-- 📛 **Fallback component** in case of total API failure.
-- 💅 Styled with **Tailwind CSS** for simplicity and speed.
-- 🧑‍💻 **Developer credit** shown at the bottom of the UI.
-- 📦 Clean, modular architecture with hook-based logic separation.
-- ✅ Fully type-safe using TypeScript.
-- 🧪 ESLint with strict type-checked configuration.
+- **Search-as-you-type** with suggestions using Finnhub's `/search` endpoint.
+- **Real-time stock quotes** via `/quote`.
+- **Initial stock list** based on NASDAQ tickers from `/stock/symbol`.
+- **Infinite scroll** that loads more stocks as the user scrolls.
+- **Scroll-aware lazy loading** (stops when scroll is enabled).
+- **Debounced search input** and **cached results** to reduce API usage.
+- **Toast-based error handling** for graceful user feedback.
+- **Fallback component** in case of total API failure.
+- Styled with **Tailwind CSS** for simplicity and speed.
+- **Developer credit** shown at the bottom of the UI.
+- Clean, modular architecture with hook-based logic separation.
+- Fully type-safe using TypeScript.
+- ESLint with strict type-checked configuration.
 
 ---
 
-## 🧠 Technologies Used
+## Technologies Used
 
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -84,8 +84,10 @@ VITE_FINNHUB_API_KEY=your_finnhub_api_key_here
 src/
 ├── components/
 │   └── ui/
-│       └── Toast.tsx           # Reusable toast for errors
-│       └── Spinner.tsx         # Simple loading spinner
+│   |    └── Toast.tsx           # Reusable toast for errors
+│   |    └── Spinner.tsx         # Simple loading spinner
+|   └── ErrorFallback.tsx        # Fallback component for API errors
+│   └── StockGrid.tsx           # Main component for displaying stocks
 ├── config/
 │   └── finnhub.ts              # Finnhub base URL + env key
 ├── features/
@@ -94,8 +96,6 @@ src/
 │       │   ├── fetchStockData.ts
 │       │   ├── fetchNasdaqTickers.ts
 │       │   └── searchSymbols.ts
-│       ├── components/
-│       │   └── StockGrid.tsx   # UI grid
 │       └── store/
 │           └── useStockStore.ts
 ├── hooks/
